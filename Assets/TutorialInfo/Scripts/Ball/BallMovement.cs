@@ -14,7 +14,7 @@ public class BallMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        Move();
     }
 
     // Handle collisions
@@ -23,7 +23,9 @@ public class BallMovement : MonoBehaviour
         if (collision.gameObject.tag == "MainCamera")
         {
             Debug.Log("Ball collided with Main Camera");
+            // TODO: Affect movement
         }
+
         if (collision.GetType() == typeof(TilemapCollider2D))
         {
             Debug.Log("Ball collided with Tile");
@@ -31,6 +33,11 @@ public class BallMovement : MonoBehaviour
         }
     }
 
+    // Move
+    private void Move()
+    {
+        //TODO: Move
+    }
 }
 
 
