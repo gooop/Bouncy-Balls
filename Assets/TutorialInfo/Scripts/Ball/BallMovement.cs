@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class PlayerMove : MonoBehaviour
+public class BallMovement : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,19 +14,23 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
+    // Handle collisions
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.GetType() == typeof(EdgeCollider2D))
+        if (collision.gameObject.tag == "MainCamera")
         {
-            Debug.Log("Player collided with Edge Collider (Probably camera)");
+            Debug.Log("Ball collided with Main Camera");
         }
         if (collision.GetType() == typeof(TilemapCollider2D))
         {
-            Debug.Log("Player collided with Tile");
+            Debug.Log("Ball collided with Tile");
             // TODO: Find out which type of tile has been collided with
         }
     }
+
 }
+
+
