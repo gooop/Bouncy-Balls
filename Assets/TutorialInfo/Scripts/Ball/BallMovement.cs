@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class BallMovement : MonoBehaviour
 {
+    public float ballSpeed = 0.02f;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,12 +15,14 @@ public class BallMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();
+        Vector2 direction = new Vector2(0.75f, 1);
+        Move(direction);
     }
 
     // Handle collisions
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        
         if (collision.gameObject.tag == "MainCamera")
         {
             Debug.Log("Ball collided with Main Camera");
@@ -34,9 +37,15 @@ public class BallMovement : MonoBehaviour
     }
 
     // Move
-    private void Move()
+    private void Move(Vector2 direction)
     {
-        //TODO: Move
+        Globals.gameState = GameState.PLAYING;
+        Globals.gameSpeed = 1;
+        if (Globals.gameState == GameState.PLAYING)
+        {
+            float speed = Globals.gameSpeed * ballSpeed * Time.deltaTime;
+            transform.Translate(direction.x, direction.y, speed); 
+        }
     }
 }
 
