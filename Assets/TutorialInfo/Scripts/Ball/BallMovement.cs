@@ -5,35 +5,61 @@ using UnityEngine.Tilemaps;
 
 public class BallMovement : MonoBehaviour
 {
-    public float ballSpeed = 0.02f;
+    public float ballSpeed;
+    public Rigidbody2D rb;
+    private Vector2 direction;
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Vector2 direction = new Vector2(0.75f, 1);
-        Move(direction);
+        direction = new Vector2(0.75f, 1);
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Handle collisions
-    private void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        
-        if (collision.gameObject.tag == "MainCamera")
+
+        // Handles wall collisions
+        if (collision.gameObject.tag == Tags.CAMERA || collision.GetType() == typeof(TilemapCollider2D))
         {
-            Debug.Log("Ball collided with Main Camera");
-            // TODO: Affect movement
+            Debug.Log("[BallMovement] Ball collided with Main Camera");
+           
+
+            if (collision.contacts.Length > 1)
+            {
+                Debug.Log("[BallMovement] Two contacts with Main Camera");
+            }
+            // Sometimes two collisions occur
+            foreach (ContactPoint2D contactPoint in collision.contacts)
+            {
+                // Handle x, if sidewall is hit, normal will not be 0
+                if (contactPoint.normal.x != 0)
+                {
+                    direction.x *= -1;
+                }
+
+                // Handle y, if top or bottom wall is hit, normal will not be 0
+                if (contactPoint.normal.y == -1)
+                {
+                    direction.y *= -1;
+                }
+
+                // Ball has hit bottom, destroy
+                if (contactPoint.normal.y == 1)
+                {
+                    direction.y *= -1;
+                    //Destroy(gameObject);
+                }
+            }
+            
         }
 
-        if (collision.GetType() == typeof(TilemapCollider2D))
+        /*if (collision.gameObject)
         {
-            Debug.Log("Ball collided with Tile");
-            // TODO: Find out which type of tile has been collided with
-        }
+            Debug.Log("[BallMovement] Ball collided with Tile");
+            direction.y = -direction.y;
+            Destroy(collision.gameObject);
+        }*/
     }
 
     // Move
@@ -43,10 +69,19 @@ public class BallMovement : MonoBehaviour
         Globals.gameSpeed = 1;
         if (Globals.gameState == GameState.PLAYING)
         {
-            float speed = Globals.gameSpeed * ballSpeed * Time.deltaTime;
-            transform.Translate(direction.x, direction.y, speed); 
+            float speed = Globals.gameSpeed * ballSpeed * Time.deltaTime * 10;
+            rb.velocity = direction * speed;
+            Debug.Log("direction" + direction);
         }
     }
+
+    // Update is called once per frame
+    void Update()
+    { 
+        Move(direction);
+    }
+
+    
 }
 
 

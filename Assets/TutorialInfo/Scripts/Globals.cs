@@ -12,19 +12,15 @@ public enum GameState
 
 
 
-public class Globals : MonoBehaviour
+public class Globals
 {
     public static GameState gameState;
     public static float gameSpeed;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public static float ballCount;
 }
+public class Tags
+{
+    public const string CAMERA = "MainCamera";
+}
+
+
