@@ -1,3 +1,5 @@
+// Copyright 2022 Gavin Castaneda
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
