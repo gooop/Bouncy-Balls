@@ -71,7 +71,6 @@ public class BallMovement : MonoBehaviour
         else if (Globals.gameState == GameState.PLAYING && !reset)
         {
             reset = true;
-            Debug.Log("[BallMovement] pausedVelocity --: " + pausedVelocity);
             rb.velocity = pausedVelocity;
         }
     }
