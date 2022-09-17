@@ -8,8 +8,7 @@ public class BallMovement : MonoBehaviour
     public float ballSpeed = 10.0f;
     public Vector2 initialVelocity = new Vector2(1.0f, 10.0f);
     public GameObject tilemapGameObject;
-
-    Tilemap tilemap;
+    private Tilemap tilemap;
 
     void Start()
     {
@@ -18,6 +17,10 @@ public class BallMovement : MonoBehaviour
         if (tilemapGameObject != null)
         {
             tilemap = tilemapGameObject.GetComponent<Tilemap>();
+        }
+        else
+        {
+            Debug.Log("[BallMovement] Couldn't find tilemap.");
         }
     }
 
@@ -28,6 +31,7 @@ public class BallMovement : MonoBehaviour
         {
             foreach (ContactPoint2D hit in collision.contacts)
             {
+                Debug.Log("[BallMovement] Tile hit.");
                 hitPosition.x = hit.point.x - 0.01f * hit.normal.x;
                 hitPosition.y = hit.point.y - 0.01f * hit.normal.y;
                 tilemap.SetTile(tilemap.WorldToCell(hitPosition), null);
