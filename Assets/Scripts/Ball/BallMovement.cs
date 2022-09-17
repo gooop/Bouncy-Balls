@@ -32,10 +32,15 @@ public class BallMovement : MonoBehaviour
             foreach (ContactPoint2D hit in collision.contacts)
             {
                 Debug.Log("[BallMovement] Tile hit.");
-                hitPosition.x = hit.point.x - 0.01f * hit.normal.x;
-                hitPosition.y = hit.point.y - 0.01f * hit.normal.y;
+                hitPosition.x = hit.point.x - 0.04f * hit.normal.x;
+                hitPosition.y = hit.point.y - 0.04f * hit.normal.y;
                 tilemap.SetTile(tilemap.WorldToCell(hitPosition), null);
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
+        //TODO: Re-implement game states
     }
 }
