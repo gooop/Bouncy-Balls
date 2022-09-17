@@ -12,13 +12,12 @@ public enum GameState
     OVER
 }
 
-
-
 public class Globals
 {
     public static GameState gameState;
     public static float gameSpeed;
     public static float ballCount;
+    public static float bottomEdge;
 }
 public class Tags
 {

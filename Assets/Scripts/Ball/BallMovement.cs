@@ -5,15 +5,23 @@ using UnityEngine.Tilemaps;
 
 public class BallMovement : MonoBehaviour
 {
-    public float ballSpeed = 10.0f;
+    // Public
+    public float ballSpeed = 10.0f * Globals.gameSpeed;
     public Vector2 initialVelocity = new Vector2(1.0f, 10.0f);
     public GameObject tilemapGameObject;
+
+    // Private
     private Tilemap tilemap;
+    private Vector2 pausedVelocity = Vector2.zero;
+    private bool reset = true;
 
     void Start()
     {
+        // Set velocity
         var rb = GetComponent<Rigidbody2D>();
         rb.velocity = initialVelocity.normalized * ballSpeed;
+
+        // Find Tilemap
         if (tilemapGameObject != null)
         {
             tilemap = tilemapGameObject.GetComponent<Tilemap>();
@@ -26,6 +34,7 @@ public class BallMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        // Tile collision
         Vector3 hitPosition = Vector3.zero;
         if (tilemap != null && tilemapGameObject == collision.gameObject)
         {
@@ -37,10 +46,33 @@ public class BallMovement : MonoBehaviour
                 tilemap.SetTile(tilemap.WorldToCell(hitPosition), null);
             }
         }
+
+        // Bottom wall collision
+        foreach (ContactPoint2D hit in collision.contacts)
+        {
+            if (hit.point.y <= Globals.bottomEdge + 0.04f)
+            {
+                Globals.gameState = GameState.AIMING;
+            }
+        }
     }
 
     private void FixedUpdate()
     {
-        //TODO: Re-implement game states
+        var rb = GetComponent<Rigidbody2D>();
+        
+        if (Globals.gameState != GameState.PLAYING && reset) 
+        {
+            reset = false;
+            pausedVelocity = rb.velocity;
+            Debug.Log("[BallMovement] pausedVelocity: " + pausedVelocity);
+            rb.velocity = new Vector2(0, 0);
+        }
+        else if (Globals.gameState == GameState.PLAYING && !reset)
+        {
+            reset = true;
+            Debug.Log("[BallMovement] pausedVelocity --: " + pausedVelocity);
+            rb.velocity = pausedVelocity;
+        }
     }
 }

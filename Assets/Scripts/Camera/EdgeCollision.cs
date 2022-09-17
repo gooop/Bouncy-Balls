@@ -36,6 +36,7 @@ public class EdgeCollision : MonoBehaviour
         var rightBottom = (Vector2)cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, 0, cam.nearClipPlane));
 
         var edgePoints = new[] { leftBottom, leftTop, rightTop, rightBottom, leftBottom };
+        Globals.bottomEdge = leftBottom.y;
 
         // Adding edge points
         edgeCollider.points = edgePoints;
