@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class GameRunner : MonoBehaviour
 {
+    public Tilemap tilemap;
+    public TileBase[] tileBases = new TileBase[3];
     // Start is called before the first frame update
     void Start()
     {
-        BlockSpawning.NextLevel();
+        Debug.Log("[GameRunner] Running initial setup");
+        Globals.levelCount = 1;
+        BlockSpawning.NextLevel(tilemap, tileBases, Globals.levelCount);
     }
 
     // Update is called once per frame

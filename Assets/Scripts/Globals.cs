@@ -15,6 +15,7 @@ public enum GameState
 public class Globals
 {
     public static GameState gameState;
+    public static int levelCount;
     public static float gameSpeed;
     public static float ballCount;
     public static float bottomEdge;
