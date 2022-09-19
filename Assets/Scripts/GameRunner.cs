@@ -21,6 +21,8 @@ public class GameRunner : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Globals.gameState = GameState.PAUSED;
+            Globals.levelCount++;
+            BlockSpawning.NextLevel(tilemap, tileBases, Globals.levelCount);
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
