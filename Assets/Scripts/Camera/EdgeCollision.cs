@@ -40,6 +40,7 @@ public class EdgeCollision : MonoBehaviour
 
         // Adding edge points
         edgeCollider.points = edgePoints;
+        edgeCollider.offset = new Vector2(.5f, 0);
     }
 
 }

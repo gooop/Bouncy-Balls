@@ -19,6 +19,7 @@ public class Globals
     public static float gameSpeed;
     public static float ballCount;
     public static float bottomEdge;
+    public static Dictionary<Vector3Int, int> tileHp = new Dictionary<Vector3Int, int>();
 }
 public class Tags
 {

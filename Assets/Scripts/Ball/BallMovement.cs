@@ -9,6 +9,7 @@ public class BallMovement : MonoBehaviour
     public float ballSpeed = 10.0f * Globals.gameSpeed;
     public Vector2 initialVelocity = new Vector2(1.0f, 10.0f);
     public GameObject tilemapGameObject;
+    public GameRunner gameRunner;
 
     // Private
     private Tilemap tilemap;
@@ -34,6 +35,7 @@ public class BallMovement : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        BlockHandling blockHandle = tilemapGameObject.GetComponent(typeof(BlockHandling)) as BlockHandling;
         // Tile collision
         Vector3 hitPosition = Vector3.zero;
         if (tilemap != null && tilemapGameObject == collision.gameObject)
@@ -43,7 +45,8 @@ public class BallMovement : MonoBehaviour
                 Debug.Log("[BallMovement] Tile hit.");
                 hitPosition.x = hit.point.x - 0.04f * hit.normal.x;
                 hitPosition.y = hit.point.y - 0.04f * hit.normal.y;
-                tilemap.SetTile(tilemap.WorldToCell(hitPosition), null);
+                
+                blockHandle.Hit(tilemap, tilemap.WorldToCell(hitPosition));
             }
         }
 
@@ -52,6 +55,7 @@ public class BallMovement : MonoBehaviour
         {
             if (hit.point.y <= Globals.bottomEdge + 0.04f)
             {
+                gameRunner.NextLevel();
                 Globals.gameState = GameState.AIMING;
             }
         }

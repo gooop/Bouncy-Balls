@@ -12,7 +12,7 @@ public class GameRunner : MonoBehaviour
     {
         Debug.Log("[GameRunner] Running initial setup");
         Globals.levelCount = 1;
-        BlockSpawning.NextLevel(tilemap, tileBases, Globals.levelCount);
+        BlockHandling.NextLevel(tilemap, tileBases, Globals.levelCount);
     }
 
     // Update is called once per frame
@@ -21,12 +21,16 @@ public class GameRunner : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Globals.gameState = GameState.PAUSED;
-            Globals.levelCount++;
-            BlockSpawning.NextLevel(tilemap, tileBases, Globals.levelCount);
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Globals.gameState = GameState.PLAYING;
         }
+    }
+
+    public void NextLevel()
+    {
+        Globals.levelCount++;
+        BlockHandling.NextLevel(tilemap, tileBases, Globals.levelCount);
     }
 }
